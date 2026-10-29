@@ -1,0 +1,8 @@
+name: mcp-probe
+on: [workflow_dispatch]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: probe
+        run: curl -s -w "\nstatus=%%{http_code}\n" https://edgeever.lwpmaya-934.workers.dev/api/health ; curl -s -w "\nstatus=%%{http_code}\n" -X POST https://edgeever.lwpmaya-934.workers.dev/mcp -H "Content-Type: application/json" -H "Accept: application/json, text/event-stream" -H "Authorization: Bearer ${{ secrets.EDGE_EVER_MCP_TOKEN }}" -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"probe","version":"1.0"}}}'
